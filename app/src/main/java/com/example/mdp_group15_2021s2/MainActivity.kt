@@ -28,12 +28,10 @@ import com.example.mdp_group15_2021s2.entity.Store
 import com.example.mdp_group15_2021s2.util.Cmd
 import com.example.mdp_group15_2021s2.util.MapDrawer
 import com.example.mdp_group15_2021s2.util.Parser
-
-
-
 import java.io.*
 import java.lang.ref.WeakReference
 import java.text.DecimalFormat
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -94,7 +92,6 @@ class MainActivity : AppCompatActivity() {
             addAction(BluetoothDevice.ACTION_FOUND)
             addAction(BluetoothDevice.ACTION_ACL_CONNECTED)
             addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED)
-
         }
         registerReceiver(receiver, filter)
 
@@ -167,13 +164,12 @@ class MainActivity : AppCompatActivity() {
             val action = intent.action
             val device: BluetoothDevice?
             val getCurrentConnection: String?
-
-            Log.w(TAG, "action: " + action.toString())
+            Log.i(TAG, "Bluetooth Broadcast Receiver Intent: " + intent.action)
             when (action) {
                 BluetoothDevice.ACTION_FOUND -> {
                     device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE)
-                    Log.d(TAG, if (device != null && device.name != null) device.name else "No device name")
-                    if (device != null) {
+                    if (device != null && device.name != null && device.address != null) {
+                        Log.d(TAG, "device name: " + device.name + " device address: " + device.address)
                         addDevice(device, device.name, device.address)
                     }
                 }
@@ -182,9 +178,7 @@ class MainActivity : AppCompatActivity() {
                     if (connectionThread != null || !disconnectState && getCurrentConnection == "Not Connected") {
                         Log.d(TAG, "Connected with a device")
                         device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE)
-                        if (device != null) {
-                            connectedState(device)
-                        }
+                        connectedState(device)
                         disconnectState = false
 
                         disableElement(buttonBluetoothServerListen)
@@ -414,7 +408,6 @@ class MainActivity : AppCompatActivity() {
         builder.apply {
             setPositiveButton("Stop Server"
             ) { _, _ ->
-//                Toast.makeText(context, "Stop Server now!", Toast.LENGTH_LONG).show()
                 connectionThread?.stopServer()
                 isServer = false
             }
@@ -772,7 +765,7 @@ class MainActivity : AppCompatActivity() {
     private val sendMessage = View.OnClickListener {
         val data = textboxSendMessage?.text.toString()
         Log.d(TAG, "Message Sent : $data")
-        messageLog.addMessage(com.example.mdp_group15_2021s2.entity.Message.MESSAGE_SENDER, data)
+        messageLog.addMessage(com.example.mdp_group15_2021s2.entity.Message.MESSAGE_RECEIVER, data)
         messageLogView?.text = messageLog.getLog()
         scrollView?.post { Log.d(TAG, "Attempting to full scroll down"); scrollView?.fullScroll(ScrollView.FOCUS_DOWN) }
         sendString(data)

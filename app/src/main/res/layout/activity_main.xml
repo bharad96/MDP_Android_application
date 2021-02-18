@@ -73,7 +73,8 @@
                 android:gravity="center"
                 android:text="@string/label_time"
                 android:textAlignment="center"
-                android:textColor="@android:color/background_light" />
+                android:textColor="@android:color/background_light"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/label_time_elapsed"
@@ -82,7 +83,8 @@
                 android:layout_marginTop="5dp"
                 android:text="@string/time_placeholder"
                 android:textAlignment="center"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/label_status_section"
@@ -408,7 +410,8 @@
                     android:layout_height="30dp"
                     android:layout_marginBottom="40dp"
                     android:background="@color/colorYellow"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="invisible">
 
                     <Switch
                         android:id="@+id/switch_motion_control"

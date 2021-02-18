@@ -61,14 +61,16 @@
             android:textColor="@color/colorButtonTextTheme"
             android:text="@string/button_scan_devices"
             app:layout_constraintStart_toStartOf="parent" />
+
         <Button
             android:id="@+id/button_bluetooth_server_listen"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:background="@color/colorAppTheme"
-            android:textColor="@color/colorButtonTextTheme"
             android:text="@string/start_bt_server"
+            android:textColor="@color/colorButtonTextTheme"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent" />
     </LinearLayout>
 </LinearLayout>
