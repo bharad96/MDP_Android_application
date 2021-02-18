@@ -89,7 +89,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_marginTop="30dp"
-                android:background="@themes/colorSecondary"
+                android:background="@color/colorSecondaryTheme"
                 android:gravity="center"
                 android:text="@string/label_status"
                 android:textAlignment="center"
@@ -217,8 +217,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="@dimen/default_gap"
-                android:layout_marginBottom="@dimen/default_gap"
+                android:layout_marginTop="8dip"
+                android:layout_marginBottom="8dip"
                 android:background="@color/colorAppTheme"
                 android:text="@string/button_reset_map"
                 android:textColor="@color/colorButtonTextTheme" />
@@ -364,7 +364,8 @@
                 android:layout_width="115dp"
                 android:layout_height="match_parent"
                 android:background="@drawable/customborder"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="invisible">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -449,19 +450,20 @@
                             android:contentDescription="@string/label_arrow"
                             android:src="@drawable/ic_arrow_left" />
 
-                        <io.github.controlwear.virtual.joystick.android.JoystickView xmlns:custom="http://schemas.android.com/apk/res-auto"
+                        <io.github.controlwear.virtual.joystick.android.JoystickView
                             android:id="@+id/joystickView"
                             android:layout_width="50dp"
                             android:layout_height="50dp"
                             android:layout_alignParentStart="true"
                             android:layout_marginStart="70dp"
                             android:layout_marginTop="50dp"
-                            custom:JV_backgroundColor="@color/colorYellow"
-                            custom:JV_borderColor="@color/colorAccent"
-                            custom:JV_borderWidth="4dp"
-                            custom:JV_buttonColor="@color/colorAppTheme"
-                            custom:JV_buttonSizeRatio="50%"
-                            custom:JV_fixedCenter="false" />
+                            android:visibility="invisible"
+                            app:JV_backgroundColor="@color/colorYellow"
+                            app:JV_borderColor="@color/colorAccent"
+                            app:JV_borderWidth="4dp"
+                            app:JV_buttonColor="@color/colorAppTheme"
+                            app:JV_buttonSizeRatio="50%"
+                            app:JV_fixedCenter="false" />
 
                         <ImageButton
                             android:id="@+id/button_direction_right"

@@ -7,8 +7,7 @@ import android.bluetooth.BluetoothSocket
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
-import android.widget.Toast
-import sg.edu.ntu.scse.mdp.g7.mdpkotlin.entity.Protocol
+import com.example.mdp_group15_2021s2.entity.Protocol
 import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
@@ -33,7 +32,7 @@ class BluetoothService(private val BTHandler: Handler) {
     }
 
     @Synchronized
-    fun stopServer(bluetoothAdapter: BluetoothAdapter) {
+    fun stopServer() {
         server!!.cancel()
 
     }
@@ -177,8 +176,8 @@ class BluetoothService(private val BTHandler: Handler) {
     }
 
     companion object {
-        private const val TAG = "BluetoothSvc"
+        private const val TAG = "BluetoothService"
         private val device_uuid = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB")
-        private const val device_name = "MDPGroup7Android"
+        private const val device_name = "MDPGroup15Android"
     }
 }

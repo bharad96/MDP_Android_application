@@ -9,8 +9,8 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.View
 
-import sg.edu.ntu.scse.mdp.g7.mdpkotlin.entity.Map
-import sg.edu.ntu.scse.mdp.g7.mdpkotlin.entity.Robot
+import com.example.mdp_group15_2021s2.entity.Map
+import com.example.mdp_group15_2021s2.entity.Robot
 
 @Suppress("unused")
 class MapDrawer(context: Context, attrs: AttributeSet? = null) : View(context, attrs) {

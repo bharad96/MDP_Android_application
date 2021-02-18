@@ -413,17 +413,17 @@ class MainActivity : AppCompatActivity() {
         val builder: AlertDialog.Builder = AlertDialog.Builder(this)
         builder.apply {
             setPositiveButton("Stop Server"
-            ) { dialog, id ->
+            ) { _, _ ->
 //                Toast.makeText(context, "Stop Server now!", Toast.LENGTH_LONG).show()
-                connectionThread?.stopServer(bluetoothAdapter)
+                connectionThread?.stopServer()
                 isServer = false
             }
             setNeutralButton("Make discoverable"
-            ) { dialog, id ->
+            ) { _, _ ->
                 startActivity(Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE))
             }
             setNegativeButton("Start Server"
-            ) { dialog, id ->
+            ) { _, _ ->
                 Toast.makeText(context, "Start Server now!", Toast.LENGTH_LONG).show()
                 connectionThread = BluetoothService(streamHandler)
                 connectionThread?.startServer(bluetoothAdapter)
@@ -811,9 +811,9 @@ class MainActivity : AppCompatActivity() {
             disableElement(listviewDevices)
             disableElement(buttonScan)
 
-//            connectionThread = BluetoothService(streamHandler)
-//            connectionThread?.startServer(bluetoothAdapter)
-//            isServer = true
+            connectionThread = BluetoothService(streamHandler)
+            connectionThread?.startServer(bluetoothAdapter)
+            isServer = true
         }
     }
 

@@ -21,7 +21,7 @@
             android:layout_marginBottom="264dp"
             android:orientation="vertical">
 
-            <sg.edu.ntu.scse.mdp.g7.mdpkotlin.util.MapDrawer
+            <com.example.mdp_group15_2021s2.util.MapDrawer
                 android:id="@+id/canvas_gridmap"
                 android:layout_width="match_parent"
                 android:layout_height="308dp"
@@ -31,7 +31,7 @@
                 android:id="@+id/button_refresh_phase"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:layout_marginTop="@dimen/default_gap"
+                android:layout_marginTop="8dip"
                 android:background="@color/colorAppTheme"
                 android:text="@string/button_refresh"
                 android:textColor="@color/colorButtonTextTheme" />
@@ -250,8 +250,8 @@
                 android:id="@+id/button_reset_map"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:layout_marginTop="@dimen/default_gap"
-                android:layout_marginBottom="@dimen/default_gap"
+                android:layout_marginTop="8dip"
+                android:layout_marginBottom="8dip"
                 android:background="@color/colorAppTheme"
                 android:text="@string/button_reset_map"
                 android:textColor="@color/colorButtonTextTheme" />
