@@ -32,12 +32,6 @@ class BluetoothService(private val BTHandler: Handler) {
     }
 
     @Synchronized
-    fun stopServer() {
-        server!!.cancel()
-
-    }
-
-    @Synchronized
     fun startStream(socket: BluetoothSocket) {
         stream = BluetoothStream(socket)
         stream!!.start()
@@ -99,7 +93,7 @@ class BluetoothService(private val BTHandler: Handler) {
     private inner class BluetoothServer(bluetoothAdapter: BluetoothAdapter) : Thread() {
         private var objServerSocket: BluetoothServerSocket?
         private var objSocket: BluetoothSocket? = null
-        private lateinit var bluetoothDevice: BluetoothDevice
+
         init {
             try {
                 this.objServerSocket = bluetoothAdapter.listenUsingInsecureRfcommWithServiceRecord(device_name, device_uuid)
@@ -119,9 +113,6 @@ class BluetoothService(private val BTHandler: Handler) {
                         startStream(it)
                         this.objServerSocket?.close()
                         chk = true
-                        bluetoothDevice = it.remoteDevice
-                        Log.d(TAG, "Closed BluetoothServerSocket as a connection is made")
-                        Log.d(TAG, "Device name: " + bluetoothDevice.name + " Bond State: " + bluetoothDevice.bondState)
                     }
                     if (chk) break
                 } catch (acceptEx: IOException) {

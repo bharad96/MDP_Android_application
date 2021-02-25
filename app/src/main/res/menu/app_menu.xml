@@ -22,10 +22,6 @@
 
         <menu>
             <item
-                android:id="@+id/mnu_btn_bt_start_server"
-                android:title="Start Server"
-                />
-            <item
                 android:id="@+id/app_menu_search_device"
                 android:title="Scan Devices" />
             <item

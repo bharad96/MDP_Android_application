@@ -23,11 +23,14 @@ import com.example.mdp_group15_2021s2.entity.MessageLog
 import com.example.mdp_group15_2021s2.service.BluetoothService
 import kotlinx.android.synthetic.main.activity_main.*
 import com.example.mdp_group15_2021s2.entity.Device
+import com.example.mdp_group15_2021s2.entity.Message.Companion.MESSAGE_RECEIVER
+import com.example.mdp_group15_2021s2.entity.Message.Companion.MESSAGE_SENDER
 import com.example.mdp_group15_2021s2.entity.Protocol
 import com.example.mdp_group15_2021s2.entity.Store
 import com.example.mdp_group15_2021s2.util.Cmd
 import com.example.mdp_group15_2021s2.util.MapDrawer
 import com.example.mdp_group15_2021s2.util.Parser
+import com.google.android.material.snackbar.Snackbar
 import java.io.*
 import java.lang.ref.WeakReference
 import java.text.DecimalFormat
@@ -164,13 +167,15 @@ class MainActivity : AppCompatActivity() {
             val action = intent.action
             val device: BluetoothDevice?
             val getCurrentConnection: String?
-            Log.i(TAG, "Bluetooth Broadcast Receiver Intent: " + intent.action)
+            Log.i(TAG, action)
+
             when (action) {
                 BluetoothDevice.ACTION_FOUND -> {
                     device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE)
-                    if (device != null && device.name != null && device.address != null) {
-                        Log.d(TAG, "device name: " + device.name + " device address: " + device.address)
-                        addDevice(device, device.name, device.address)
+                    if (device != null){
+
+                        Log.d(TAG, if (device.name != null) device.name else "No device name")
+                        addDevice(device, if (device.name != null) device.name else " ", device.address)
                     }
                 }
                 BluetoothDevice.ACTION_ACL_CONNECTED -> {
@@ -192,10 +197,9 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
                 BluetoothDevice.ACTION_ACL_DISCONNECTED -> {
-                    Log.d(TAG, "Disconnected with a device")
                     getCurrentConnection = label_bluetooth_status.text.toString()
                     device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE)
-
+                    Log.d(TAG, "Disconnected with device: ${device.name} ${device.address}")
                     if (getCurrentConnection == "Connected" && device.address == connectedDevice.address) {
                         connectionThread?.cancel()
 
@@ -222,7 +226,7 @@ class MainActivity : AppCompatActivity() {
         var flag = true
         run toBreak@ {
             deviceList.forEach {
-                if (it.macAddr == deviceHardwareAddress) {
+                if (it.macAddr == deviceHardwareAddress && it.deviceName == deviceName) {
                     flag = false
                     return@toBreak
                 }
@@ -262,7 +266,7 @@ class MainActivity : AppCompatActivity() {
                     val data = String(buffer, 0, message.arg1)
                     Log.d(TAG, "Received data : $data")
                     if (activity == null) { Log.e(TAG, "No activity object, Not continuing..."); return }
-                    activity.messageLog.addMessage(com.example.mdp_group15_2021s2.entity.Message.MESSAGE_RECEIVER, data.trim())
+                    activity.messageLog.addMessage(MESSAGE_RECEIVER, data.trim())
                     // Split data by ;
                     val textArr = data.split(";")
                     textArr.forEach {
@@ -309,10 +313,6 @@ class MainActivity : AppCompatActivity() {
                 Log.d(TAG, "Clicked on Message Log")
                 dialogMessageLog()
             }
-            R.id.mnu_btn_bt_start_server -> {
-                Log.d(TAG, "Clicked on Start Server")
-                dialogStartServer()
-            }
             R.id.app_menu_search_device -> {
                 Log.d(TAG, "Clicked on Search Device")
                 dialogDevices()
@@ -343,14 +343,16 @@ class MainActivity : AppCompatActivity() {
         connectedDevice = device
         label_bluetooth_status.text = "Connected"
         label_bluetooth_status.setTextColor(Color.parseColor("#388e3c"))
-
-        label_bluetooth_connected_device.text = if (connectedDevice.name != null) connectedDevice.name else "Unknown Device"
+        val device_name = if (connectedDevice.name != null) connectedDevice.name else "Unknown Device"
+        Toast.makeText(this, "Connected to: $device_name", Toast.LENGTH_SHORT).show()
+        label_bluetooth_connected_device.text = device_name
     }
 
     private fun disconnectedState() {
         label_bluetooth_status.text = "Not Connected"
         label_bluetooth_status.setTextColor(Color.parseColor("#d32f2f"))
         label_bluetooth_connected_device.text = ""
+        Toast.makeText(this, "Disconnected from device", Toast.LENGTH_SHORT).show()
     }
 
     // Handle different UI state
@@ -403,32 +405,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     // Dialog Builders
-    private fun dialogStartServer(){
-        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
-        builder.apply {
-            setPositiveButton("Stop Server"
-            ) { _, _ ->
-                connectionThread?.stopServer()
-                isServer = false
-            }
-            setNeutralButton("Make discoverable"
-            ) { _, _ ->
-                startActivity(Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE))
-            }
-            setNegativeButton("Start Server"
-            ) { _, _ ->
-                Toast.makeText(context, "Start Server now!", Toast.LENGTH_LONG).show()
-                connectionThread = BluetoothService(streamHandler)
-                connectionThread?.startServer(bluetoothAdapter)
-                isServer = true
-            }
-        }
-        builder.setMessage("1. Make discoverable if devices are not paired.\n2. Start Server and scan for devices from the Client device.\n3. Stop Server to safely stop communication.")
-                .setTitle("Bluetooth Server Settings")
-
-        val dialog: AlertDialog = builder.create()
-        dialog.show()
-    }
     private fun dialogConfigString() {
         // View configs
         val dialog = inflater.inflate(R.layout.dialog_string_configs, null)
@@ -652,9 +628,8 @@ class MainActivity : AppCompatActivity() {
             enableElement(switch_motion_control)
             enableElement(button_start_phase)
             enableElement(button_reset_map)
-            val msg = ";{$FROMANDROID\"com\":\"startingPoint\",\"startingPoint\":[${MapDrawer.Start_Point_X},${MapDrawer.getStartPointYInvert()},${MapDrawer.getRotationDir()}]}"
-            sendString(msg)
-
+            val msg = "OG,[${MapDrawer.Robot_X},${MapDrawer.invertYAxis(MapDrawer.Robot_Y)},${MapDrawer.getRotationDir()}]"
+            sendString(commandWrap(msg))
             MapDrawer.setSelectStartPoint()
             MapDrawer.updateStartPoint()
             canvas_gridmap.invalidate()
@@ -683,8 +658,8 @@ class MainActivity : AppCompatActivity() {
             enableElement(switch_motion_control)
             enableElement(button_start_phase)
             enableElement(button_reset_map)
-            val msg = ";{$FROMANDROID\"com\":\"wayPoint\",\"wayPoint\":[${MapDrawer.Way_Point_X},${MapDrawer.getWayPointYInvert()}]}"
-            sendString(msg)
+            val msg = "WP,[${MapDrawer.Way_Point_X},${MapDrawer.getWayPointYInvert()}]"
+            sendString(commandWrap(msg))
 
             MapDrawer.setSelectWayPoint()
             canvas_gridmap.invalidate()
@@ -765,7 +740,7 @@ class MainActivity : AppCompatActivity() {
     private val sendMessage = View.OnClickListener {
         val data = textboxSendMessage?.text.toString()
         Log.d(TAG, "Message Sent : $data")
-        messageLog.addMessage(com.example.mdp_group15_2021s2.entity.Message.MESSAGE_RECEIVER, data)
+        messageLog.addMessage(MESSAGE_SENDER, data)
         messageLogView?.text = messageLog.getLog()
         scrollView?.post { Log.d(TAG, "Attempting to full scroll down"); scrollView?.fullScroll(ScrollView.FOCUS_DOWN) }
         sendString(data)
@@ -787,7 +762,7 @@ class MainActivity : AppCompatActivity() {
         val item = deviceList[i]
         val device = item.device
 
-        Log.d(TAG, "Connect")
+        Log.d(TAG, "Connecting to " + device.name + " " + device.address)
         if (bluetoothAdapter.isDiscovering) bluetoothAdapter.cancelDiscovery()
 
         connectedDevice = device
@@ -947,7 +922,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun commandWrap(cmd: String): String {
-        return ";{$FROMANDROID\"com\":\"${cmd}\"}"
+        return "PC,${cmd}|"
+//        return ";{$FROMANDROID\"com\":\"${cmd}\"}"
     }
 
     companion object {

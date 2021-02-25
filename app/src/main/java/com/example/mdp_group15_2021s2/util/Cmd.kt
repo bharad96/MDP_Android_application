@@ -13,16 +13,17 @@ object Cmd {
     /**
      * Exploration/Fastest Path
      */
-    const val EXPLORATION_START = "ex"
-    const val FASTEST_PATH_START = "fp"
-    const val STOP = "T"
+    const val EXPLORATION_START = "ES"
+    const val FASTEST_PATH_START = "FS"
+    const val STOP = "RS"
 
     /**
      * Robot movements
      */
-    const val DIRECTION_LEFT = "A"
-    const val DIRECTION_RIGHT = "D"
-    const val DIRECTION_UP = "W"
+    const val DIRECTION_LEFT = "TL"
+    const val DIRECTION_RIGHT = "TR"
+    const val DIRECTION_UP = "F"
+    const val DIRECTION_DOWN = "R"
 
     /**
      * Map Status

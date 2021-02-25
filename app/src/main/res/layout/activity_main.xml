@@ -50,7 +50,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        android:text="Nexus 7"
+                        android:text=""
                         android:textAppearance="?attr/textAppearanceBody2"
                         android:textColor="?android:attr/textColorSecondary"
                         />
@@ -73,7 +73,7 @@
                     <!-- Title, secondary and supporting text -->
                     <TextView
                         android:id="@+id/label_status_section"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/label_status"
                         android:gravity="center"
@@ -432,12 +432,6 @@
                         android:text="Controls"
                         android:textAppearance="?attr/textAppearanceHeadline6"
                         />
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:layout_marginBottom="40dp"
-                        android:background="@color/colorAppTheme"
-                        android:orientation="horizontal">
 
                         <Switch
                             android:id="@+id/switch_motion_control"
@@ -446,8 +440,6 @@
                             android:switchPadding="10dp"
                             android:text="@string/switch_motion"
                             android:textColor="#616161" />
-
-                    </RelativeLayout>
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -463,8 +455,9 @@
                             android:src="@drawable/ic_arrow_up" />
 
                         <RelativeLayout
+                            android:id="@+id/btn_left_right"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
                             android:orientation="horizontal">
 
                             <ImageButton
@@ -489,19 +482,29 @@
                                 app:JV_borderWidth="4dp"
                                 app:JV_buttonColor="@color/colorPrimary"
                                 app:JV_buttonSizeRatio="50%"
+                                android:visibility="invisible"
                                 app:JV_fixedCenter="false" />
 
                             <ImageButton
                                 android:id="@+id/button_direction_right"
                                 android:layout_width="50dp"
                                 android:layout_height="50dp"
-                                android:layout_alignParentStart="true"
-                                android:layout_marginStart="119dp"
+                                android:layout_alignParentEnd="true"
                                 android:layout_marginTop="50dp"
                                 android:background="@color/colorAppTheme"
                                 android:contentDescription="@string/label_arrow"
                                 android:src="@drawable/ic_arrow_right" />
                         </RelativeLayout>
+                        <ImageButton
+                            android:id="@+id/button_direction_down"
+                            android:layout_below="@id/btn_left_right"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_centerHorizontal="true"
+                            android:background="@color/colorAppTheme"
+                            android:rotation="180"
+                            android:contentDescription="@string/label_arrow"
+                            android:src="@drawable/ic_arrow_up" />
                     </RelativeLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>

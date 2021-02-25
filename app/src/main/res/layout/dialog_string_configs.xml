@@ -71,35 +71,23 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <LinearLayout
+        <Button
+            android:id="@+id/button_send_string1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/button_send_string1"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginEnd="5dp"
-                android:background="@color/colorAppTheme"
-                android:textColor="@color/colorButtonTextTheme"
-                android:text="@string/btn_send_string_1" />
-
-            <Button
-                android:id="@+id/button_send_string2"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginStart="5dp"
-                android:background="@color/colorAppTheme"
-                android:textColor="@color/colorButtonTextTheme"
-                android:text="@string/btn_send_string_2" />
-        </LinearLayout>
-
+            android:layout_weight="1"
+            android:layout_marginTop="7dp"
+            android:background="@color/colorAppTheme"
+            android:textColor="@color/colorButtonTextTheme"
+            android:text="@string/btn_send_string_1" />
+        <Button
+            android:id="@+id/button_send_string2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:background="@color/colorAppTheme"
+            android:textColor="@color/colorButtonTextTheme"
+            android:text="@string/btn_send_string_2" />
         <Button
             android:id="@+id/button_save_string_config"
             android:layout_width="match_parent"
