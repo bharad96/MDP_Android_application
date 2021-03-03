@@ -25,11 +25,11 @@ class BluetoothService(private val BTHandler: Handler) {
         connection!!.start()
     }
 
-    @Synchronized
-    fun startServer(bluetoothAdapter: BluetoothAdapter) {
-        server = BluetoothServer(bluetoothAdapter)
-        server!!.start()
-    }
+//    @Synchronized
+//    fun startServer(bluetoothAdapter: BluetoothAdapter) {
+//        server = BluetoothServer(bluetoothAdapter)
+//        server!!.start()
+//    }
 
     @Synchronized
     fun startStream(socket: BluetoothSocket) {
@@ -41,7 +41,7 @@ class BluetoothService(private val BTHandler: Handler) {
     fun cancel() {
         connection?.cancel()
         stream?.cancel()
-        server?.cancel()
+//        server?.cancel()
     }
 
     @Synchronized

@@ -13,9 +13,9 @@ object Cmd {
     /**
      * Exploration/Fastest Path
      */
-    const val EXPLORATION_START = "ES"
-    const val FASTEST_PATH_START = "FS"
-    const val STOP = "RS"
+    const val EXPLORATION_START = "ES|"
+    const val FASTEST_PATH_START = "FS|"
+    const val STOP = "RS|"
 
     /**
      * Robot movements

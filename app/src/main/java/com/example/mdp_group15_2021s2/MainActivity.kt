@@ -202,17 +202,10 @@ class MainActivity : AppCompatActivity() {
                     Log.d(TAG, "Disconnected with device: ${device.name} ${device.address}")
                     if (getCurrentConnection == "Connected" && device.address == connectedDevice.address) {
                         connectionThread?.cancel()
-
                         if (!disconnectState) {
-                            if (isServer) {
-                                Log.d(TAG, "Starting Server")
-                                connectionThread = BluetoothService(streamHandler)
-                                connectionThread?.startServer(bluetoothAdapter)
-                            } else {
-                                Log.d(TAG, "Starting Client")
-                                connectionThread = BluetoothService(streamHandler)
-                                connectionThread?.connectDevice(connectedDevice)
-                            }
+                            Log.d(TAG, "Starting Client")
+                            connectionThread = BluetoothService(streamHandler)
+                            connectionThread?.connectDevice(connectedDevice)
                         } else connectionThread = null
                         disconnectedState()
                     }
@@ -520,7 +513,7 @@ class MainActivity : AppCompatActivity() {
 
         // Configure event listener
         dialog.findViewById<Button>(R.id.button_scan).setOnClickListener(scanDevice)
-        dialog.findViewById<Button>(R.id.button_bluetooth_server_listen).setOnClickListener(startBluetoothServer)
+//        dialog.findViewById<Button>(R.id.button_bluetooth_server_listen).setOnClickListener(startBluetoothServer)
         listviewDevices.onItemClickListener = connectDevice
 
         isPairedDevicesOnly = false
@@ -548,7 +541,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         // Configure event listeners
-        dialog.findViewById<Button>(R.id.button_bluetooth_server_listen).setOnClickListener(startBluetoothServer)
+//        dialog.findViewById<Button>(R.id.button_bluetooth_server_listen).setOnClickListener(startBluetoothServer)
         listviewDevices.onItemClickListener = connectDevice
 
         isPairedDevicesOnly = true
@@ -658,7 +651,7 @@ class MainActivity : AppCompatActivity() {
             enableElement(switch_motion_control)
             enableElement(button_start_phase)
             enableElement(button_reset_map)
-            val msg = "WP,[${MapDrawer.Way_Point_X},${MapDrawer.getWayPointYInvert()}]"
+            val msg = "WP|${MapDrawer.Way_Point_X}|${MapDrawer.getWayPointYInvert()}"
             sendString(commandWrap(msg))
 
             MapDrawer.setSelectWayPoint()
@@ -769,21 +762,21 @@ class MainActivity : AppCompatActivity() {
         connectBluetoothDevice()
         isServer = false
     }
-    private val startBluetoothServer = View.OnClickListener {
-        if (buttonBluetoothServerListen?.text == "Stop Bluetooth Server") {
-            buttonBluetoothServerListen?.text = "Start Bluetooth Server"
-            enableElement(listviewDevices)
-            enableElement(buttonScan)
-        } else if (buttonBluetoothServerListen?.text == "Start Bluetooth Server") {
-            buttonBluetoothServerListen?.text = "Stop Bluetooth Server"
-            disableElement(listviewDevices)
-            disableElement(buttonScan)
-
-            connectionThread = BluetoothService(streamHandler)
-            connectionThread?.startServer(bluetoothAdapter)
-            isServer = true
-        }
-    }
+//    private val startBluetoothServer = View.OnClickListener {
+//        if (buttonBluetoothServerListen?.text == "Stop Bluetooth Server") {
+//            buttonBluetoothServerListen?.text = "Start Bluetooth Server"
+//            enableElement(listviewDevices)
+//            enableElement(buttonScan)
+//        } else if (buttonBluetoothServerListen?.text == "Start Bluetooth Server") {
+//            buttonBluetoothServerListen?.text = "Stop Bluetooth Server"
+//            disableElement(listviewDevices)
+//            disableElement(buttonScan)
+//
+//            connectionThread = BluetoothService(streamHandler)
+//            connectionThread?.startServer(bluetoothAdapter)
+//            isServer = true
+//        }
+//    }
 
     // Helper functions for Bluetooth
     private fun disconnectBluetoothDevice() {
@@ -865,21 +858,22 @@ class MainActivity : AppCompatActivity() {
 
     // Helper functions to handle received message
     private fun handleAction(payload: String) {
-        Log.d("Action", "Parsing $payload")
+        Log.e("Action", "Parsing $payload")
         val parse = Parser(payload)
 
-        val isStatus = parse.setStatus()
-        if (isStatus) {
-            handleUpdateStatus(parse.robotStatus)
-            return
-        }
+        // Need to check if status is working
+//        val isStatus = parse.setStatus()
+//        if (isStatus) {
+//            handleUpdateStatus(parse.robotStatus)
+//            return
+//        }
 
-        if (!parse.validPayload) return
+//        if (!parse.validPayload) return
 
         handleUpdatePosition(parse.robotX, parse.robotY, parse.robotDir)
 
         parse.processImage()
-        handleUpdateImage(parse.lastImageID)
+//        handleUpdateImage(parse.lastImageID)
         MapDrawer.setGrid(parse.exploredMap)
     }
 
@@ -922,7 +916,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun commandWrap(cmd: String): String {
-        return "PC,${cmd}|"
+        return "PC,${cmd}"
 //        return ";{$FROMANDROID\"com\":\"${cmd}\"}"
     }
 

@@ -19,6 +19,7 @@ class Parser(payload: String) {
     var lastImageID = ""
     private var currentPayload = ""
 
+    // Used to draw the grid map
     val exploredMap = Array(Map.COLUMN) { Array(Map.ROW) { "" } }
 
     var validPayload = true
@@ -44,10 +45,10 @@ class Parser(payload: String) {
 
         this.payload?.let {
             try {
-                val robot = it.getJSONArray("pos")
+                val robot = it.getJSONArray("robotPosition")
 
                 this.robotX = robot.getInt(0)
-                this.robotY = robot.getInt(1)
+                this.robotY = 19 - robot.getInt(1)
                 val angle = robot.getInt(2)
 
                 this.robotDir = when (angle) {
@@ -73,21 +74,21 @@ class Parser(payload: String) {
     fun setStatus(): Boolean { return try { this.robotStatus = this.payload?.getString("status") ?: "Unknown"; true } catch (e: Exception) { Log.d(TAG, "EXCEPTION"); false } }
 
     fun processImage() {
-        if (!this.validPayload) return
+//        if (!this.validPayload) return
 
         this.payload?.let {
             try {
                 val images = it.getJSONArray("imgs")
                 var imgID = "0"
-                var image: JSONArray?
+                var image: String?
                 var imgX: Int
                 var imgY: Int
 
                 for (i in 0 until images.length()) {
-                    image = images.getJSONArray(i)
-                    imgX = image.getString(0).toInt()
-                    imgY = image.getString(1).toInt()
-                    imgID = image.getString(2)
+                    image = images.getString(i)
+                    imgX = Character.getNumericValue(image.get(0))
+                    imgY = Character.getNumericValue(image.get(2))
+                    imgID = image.get(4).toString()
                     hexImage += " ($imgID,$imgX,$imgY),"
                     this.exploredMap[imgX][imgY] = imgID
                 }
@@ -114,17 +115,22 @@ class Parser(payload: String) {
 
         this.payload?.let {
             try {
-                var exploredMDF = it.getString("expMDF")
-                var obstacleMDF = it.getString("objMDF")
-
+                var map = JSONObject(it.getString("map"))
+                Log.e("Parser", "map: $map")
+                var exploredMDF = map.getString("explored")
+                var obstacleMDF = map.getString("obstacle")
+                Log.e("Parser", "Explored: $exploredMDF")
+                Log.e("Parser", "Obstacle: $obstacleMDF")
                 /**
                  * Explored Portion
                  */
                 hexMDF = exploredMDF
                 exploredMDF = BigInteger(exploredMDF, 16).toString(2)
-                exploredMDF = exploredMDF.substring(2, 302)
+                exploredMDF = exploredMDF.substring(2,
+                        302)
                 if (DEBUG) Log.d("MDF", "Explored MDF: $exploredMDF")
 
+                // Explored mdf is now len 300
                 val exploredLength = exploredMDF.replace("0", "").length
                 val obstaclePad = exploredLength % 4
                 if (DEBUG) Log.d("MDF", "Obstacle Padding: $obstaclePad")
@@ -144,6 +150,7 @@ class Parser(payload: String) {
                 }
                 if (DEBUG) printMapDbg()
 
+//                obstacleMDF = 00000000000000000000000010000000000000000000 length = 44
                 Log.d("MDF", "Parsing Obstacle String on map")
                 var counter = 0
                 for (i in 0 until Map.ROW) {
@@ -154,18 +161,19 @@ class Parser(payload: String) {
                             }
                             counter++
                         }
+                        Log.e(TAG, "i:${i} j:${j} counter:${counter} ")
                     }
                 }
                 if (DEBUG) printMapDbg()
 
             } catch (jsonEx: JSONException) {
-                Log.d(TAG, "JSON EXCEPTION")
+                Log.e(TAG, "JSON EXCEPTION")
                 this.validPayload = false
             } catch (indexEx: IndexOutOfBoundsException) {
-                Log.d(TAG, "INDEX OUT OF BOUNDS EXCEPTION")
+                Log.e(TAG, "INDEX OUT OF BOUNDS EXCEPTION")
                 this.validPayload = false
             } catch (castEx: ClassCastException) {
-                Log.d(TAG, "CLASS CAST EXCEPTION")
+                Log.e(TAG, "CLASS CAST EXCEPTION")
                 this.validPayload = false
             }
         }

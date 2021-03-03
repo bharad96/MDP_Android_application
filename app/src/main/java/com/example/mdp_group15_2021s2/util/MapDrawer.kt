@@ -72,7 +72,7 @@ class MapDrawer(context: Context, attrs: AttributeSet? = null) : View(context, a
         obstacleTextPaint = Paint(Paint.ANTI_ALIAS_FLAG)
 
         gridPaint.style = Paint.Style.FILL
-        gridPaint.color = Color.parseColor("#87cefa")
+        gridPaint.color = Color.parseColor("#0cadad")
         //gridPaint.setColor(Color.parseColor("#3A96C2"));
         gridPaintBorder.style = Paint.Style.STROKE
         gridPaintBorder.color = Color.parseColor("#eeeeee")
@@ -82,13 +82,13 @@ class MapDrawer(context: Context, attrs: AttributeSet? = null) : View(context, a
         gridPaintCoords.textSize = 15f
 
         robotPaint.style = Paint.Style.FILL
-        robotPaint.color = Color.parseColor("#FF7F50")
+        robotPaint.color = Color.parseColor("#ffe64b")
 
         directionPaint.style = Paint.Style.STROKE
         directionPaint.color = Color.parseColor("#424242")
 
         exploredPaint.style = Paint.Style.FILL
-        exploredPaint.color = Color.parseColor("#f5f5f5")
+        exploredPaint.color = Color.parseColor("#e1dcda")  // explored area
         exploredPaintBorder.style = Paint.Style.STROKE
         exploredPaintBorder.color = Color.parseColor("#3A96C2")
 
@@ -103,7 +103,7 @@ class MapDrawer(context: Context, attrs: AttributeSet? = null) : View(context, a
         startPointPaintBorder.color = Color.parseColor("#f5f5f5")
 
         endPointPaint.style = Paint.Style.FILL
-        endPointPaint.color = Color.parseColor("#009688")
+        endPointPaint.color = Color.parseColor("#0cadad")
         endPointPaintBorder.style = Paint.Style.STROKE
         endPointPaintBorder.color = Color.parseColor("#f5f5f5")
 
