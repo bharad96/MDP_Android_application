@@ -86,10 +86,11 @@ class Parser(payload: String) {
 
                 for (i in 0 until images.length()) {
                     image = images.getString(i)
-                    imgX = Character.getNumericValue(image.get(0))
-                    imgY = Character.getNumericValue(image.get(2))
-                    imgID = image.get(4).toString()
+                    imgX = Character.getNumericValue(image[0])
+                    imgY = Character.getNumericValue(image[2])
+                    imgID = image[4].toString()
                     hexImage += " ($imgID,$imgX,$imgY),"
+                    Log.e(TAG, "Process Img i:$i x:$imgX y:$imgY id:$imgID")
                     this.exploredMap[imgX][imgY] = imgID
                 }
 
@@ -99,7 +100,7 @@ class Parser(payload: String) {
                 Log.d(TAG, "JSON EXCEPTION")
                 this.validPayload = false
             } catch (indexEx: IndexOutOfBoundsException) {
-                Log.d(TAG, "INDEX OUT OF BOUNDS EXCEPTION")
+                Log.d(TAG, "Process Image INDEX OUT OF BOUNDS EXCEPTION")
                 this.validPayload = false
             } catch (castEx: ClassCastException) {
                 Log.d(TAG, "CLASS CAST EXCEPTION")
@@ -161,7 +162,7 @@ class Parser(payload: String) {
                             }
                             counter++
                         }
-                        Log.e(TAG, "i:${i} j:${j} counter:${counter} ")
+//                        Log.e(TAG, "i:${i} j:${j} counter:${counter} ")
                     }
                 }
                 if (DEBUG) printMapDbg()
@@ -170,7 +171,7 @@ class Parser(payload: String) {
                 Log.e(TAG, "JSON EXCEPTION")
                 this.validPayload = false
             } catch (indexEx: IndexOutOfBoundsException) {
-                Log.e(TAG, "INDEX OUT OF BOUNDS EXCEPTION")
+                Log.e(TAG, "Set MDF INDEX OUT OF BOUNDS EXCEPTION")
                 this.validPayload = false
             } catch (castEx: ClassCastException) {
                 Log.e(TAG, "CLASS CAST EXCEPTION")

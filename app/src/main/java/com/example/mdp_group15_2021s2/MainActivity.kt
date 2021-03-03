@@ -878,25 +878,26 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun handleUpdateImage(imgID: String) {
-        image_content.setImageResource(when (imgID) {
-            "0" -> R.drawable.img_0
-            "1" -> R.drawable.img_1
-            "2" -> R.drawable.img_2
-            "3" -> R.drawable.img_3
-            "4" -> R.drawable.img_4
-            "5" -> R.drawable.img_5
-            "6" -> R.drawable.img_6
-            "7" -> R.drawable.img_7
-            "8" -> R.drawable.img_8
-            "9" -> R.drawable.img_9
-            "10" -> R.drawable.img_10
-            "11" -> R.drawable.img_11
-            "12" -> R.drawable.img_12
-            "13" -> R.drawable.img_13
-            "14" -> R.drawable.img_14
-            "15" -> R.drawable.img_15
-            else -> R.drawable.img_0
-        })
+//        image_content.setImageResource(when (imgID) {
+//
+//            "0" -> R.drawable.img_0
+//            "1" -> R.drawable.img_1
+//            "2" -> R.drawable.img_2
+//            "3" -> R.drawable.img_3
+//            "4" -> R.drawable.img_4
+//            "5" -> R.drawable.img_5
+//            "6" -> R.drawable.img_6
+//            "7" -> R.drawable.img_7
+//            "8" -> R.drawable.img_8
+//            "9" -> R.drawable.img_9
+//            "10" -> R.drawable.img_10
+//            "11" -> R.drawable.img_11
+//            "12" -> R.drawable.img_12
+//            "13" -> R.drawable.img_13
+//            "14" -> R.drawable.img_14
+//            "15" -> R.drawable.img_15
+//            else -> R.drawable.img_0
+//        })
     }
 
     private fun handleUpdatePosition(x_axis: Int, y_axis: Int, dir: String) {

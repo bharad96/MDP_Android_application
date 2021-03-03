@@ -1,13 +1,11 @@
 package com.example.mdp_group15_2021s2.util
 
 import android.content.Context
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.Rect
+import android.graphics.*
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
+import com.example.mdp_group15_2021s2.R
 
 import com.example.mdp_group15_2021s2.entity.Map
 import com.example.mdp_group15_2021s2.entity.Robot
@@ -182,7 +180,7 @@ class MapDrawer(context: Context, attrs: AttributeSet? = null) : View(context, a
                     canvas.drawRect(rectangle, exploredPaintBorder)
                 } else if (exploredPath[i][j] != "0") {
                     Log.d(TAG, exploredPath[i][j])
-                    drawObstacles(canvas, left, top, exploredPath[i][j])
+                    drawObstacles(canvas, left, top, left + gridDimensions, top + gridDimensions, exploredPath[i][j])
                 }
             }
         }
@@ -344,7 +342,7 @@ class MapDrawer(context: Context, attrs: AttributeSet? = null) : View(context, a
         canvas.drawText("POINT", left, top, selectionTextPaint)
     }
 
-    private fun drawObstacles(canvas: Canvas, left: Int, top: Int, obstacle: String) {
+    private fun drawObstacles(canvas: Canvas, left: Int, top: Int, right: Int, bottom: Int, obstacle: String) {
         val rectangle = Rect(left, top, left + gridDimensions, top + gridDimensions)
         val ttop = top + 25
         val tleft = left + 6
@@ -352,21 +350,21 @@ class MapDrawer(context: Context, attrs: AttributeSet? = null) : View(context, a
         canvas.drawRect(rectangle, obstaclePaint)
         canvas.drawRect(rectangle, obstaclePaintBorder)
         when (obstacle) {
-            "1" -> canvas.drawText("01", tleft.toFloat(), ttop.toFloat(), obstacleTextPaint)
-            "2" -> canvas.drawText("02", tleft.toFloat(), ttop.toFloat(), obstacleTextPaint)
-            "3" -> canvas.drawText("03", tleft.toFloat(), ttop.toFloat(), obstacleTextPaint)
-            "4" -> canvas.drawText("04", tleft.toFloat(), ttop.toFloat(), obstacleTextPaint)
-            "5" -> canvas.drawText("05", tleft.toFloat(), ttop.toFloat(), obstacleTextPaint)
-            "6" -> canvas.drawText("06", tleft.toFloat(), ttop.toFloat(), obstacleTextPaint)
-            "7" -> canvas.drawText("07", tleft.toFloat(), ttop.toFloat(), obstacleTextPaint)
-            "8" -> canvas.drawText("08", tleft.toFloat(), ttop.toFloat(), obstacleTextPaint)
-            "9" -> canvas.drawText("09", tleft.toFloat(), ttop.toFloat(), obstacleTextPaint)
-            "10" -> canvas.drawText("10", tleft.toFloat(), ttop.toFloat(), obstacleTextPaint)
-            "11" -> canvas.drawText("11", tleft.toFloat(), ttop.toFloat(), obstacleTextPaint)
-            "12" -> canvas.drawText("12", tleft.toFloat(), ttop.toFloat(), obstacleTextPaint)
-            "13" -> canvas.drawText("13", tleft.toFloat(), ttop.toFloat(), obstacleTextPaint)
-            "14" -> canvas.drawText("14", tleft.toFloat(), ttop.toFloat(), obstacleTextPaint)
-            "15" -> canvas.drawText("15", tleft.toFloat(), ttop.toFloat(), obstacleTextPaint)
+            "1" -> canvas.drawBitmap(BitmapFactory.decodeResource(context.resources, R.raw.img_1), null, Rect(left, top, right, bottom), null)
+            "2" -> canvas.drawBitmap(BitmapFactory.decodeResource(context.resources, R.raw.img_2), null, Rect(left, top, right, bottom), null)
+            "3" -> canvas.drawBitmap(BitmapFactory.decodeResource(context.resources, R.raw.img_3), null, Rect(left, top, right, bottom), null)
+            "4" -> canvas.drawBitmap(BitmapFactory.decodeResource(context.resources, R.raw.img_4), null, Rect(left, top, right, bottom), null)
+            "5" -> canvas.drawBitmap(BitmapFactory.decodeResource(context.resources, R.raw.img_5), null, Rect(left, top, right, bottom), null)
+            "6" -> canvas.drawBitmap(BitmapFactory.decodeResource(context.resources, R.raw.img_6), null, Rect(left, top, right, bottom), null)
+            "7" -> canvas.drawBitmap(BitmapFactory.decodeResource(context.resources, R.raw.img_7), null, Rect(left, top, right, bottom), null)
+            "8" -> canvas.drawBitmap(BitmapFactory.decodeResource(context.resources, R.raw.img_8), null, Rect(left, top, right, bottom), null)
+            "9" -> canvas.drawBitmap(BitmapFactory.decodeResource(context.resources, R.raw.img_9), null, Rect(left, top, right, bottom), null)
+            "10" -> canvas.drawBitmap(BitmapFactory.decodeResource(context.resources, R.raw.img_10), null, Rect(left, top, right, bottom), null)
+            "11" -> canvas.drawBitmap(BitmapFactory.decodeResource(context.resources, R.raw.img_11), null, Rect(left, top, right, bottom), null)
+            "12" -> canvas.drawBitmap(BitmapFactory.decodeResource(context.resources, R.raw.img_12), null, Rect(left, top, right, bottom), null)
+            "13" -> canvas.drawBitmap(BitmapFactory.decodeResource(context.resources, R.raw.img_13), null, Rect(left, top, right, bottom), null)
+            "14" -> canvas.drawBitmap(BitmapFactory.decodeResource(context.resources, R.raw.img_14), null, Rect(left, top, right, bottom), null)
+            "15" -> canvas.drawBitmap(BitmapFactory.decodeResource(context.resources, R.raw.img_15), null, Rect(left, top, right, bottom), null)
         }
     }
 
