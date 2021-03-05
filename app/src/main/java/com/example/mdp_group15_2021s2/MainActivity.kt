@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var connectedDevice: BluetoothDevice
     private lateinit var listviewDevices: ListView
     private val messageLog = MessageLog()
-    private var isServer = false
+//    private var isServer = false
     private var disconnectState = true
     private var startModeState = false
     private var fastestPathModeState = false
@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity() {
     /**
      * Controls for Devices configs
      */
-    private var buttonBluetoothServerListen: Button? = null
+//    private var buttonBluetoothServerListen: Button? = null
     private var buttonScan: Button? = null
 
     // Controls for String configs
@@ -77,9 +77,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         inflater = LayoutInflater.from(this)
         setContentView(R.layout.activity_main)
-
-        // UI Configurations
-        configureToggle()
 
         // Request for location (BT)
         if (ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
@@ -136,15 +133,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
-    private fun configureToggle() {
-        toggle_mode_exploration.setPadding(15, 10, 15, 10)
-        toggle_mode_fastest_path.setPadding(15, 10, 15,10)
-
-        toggle_update_auto.setPadding(15, 5, 15, 5)
-        toggle_update_manual.setPadding(15, 5, 15, 5)
-    }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (resultCode == Activity.RESULT_OK && data != null && data.data != null && requestCode == INTENT_EXPORT && mdfFileToExport != null) {
             Log.i(TAG, "Writing to file")
@@ -186,7 +174,7 @@ class MainActivity : AppCompatActivity() {
                         connectedState(device)
                         disconnectState = false
 
-                        disableElement(buttonBluetoothServerListen)
+//                        disableElement(buttonBluetoothServerListen)
                         disableElement(buttonScan)
                         disableElement(listviewDevices)
 
@@ -502,12 +490,12 @@ class MainActivity : AppCompatActivity() {
         listviewDevices = dialog.findViewById<View>(R.id.listView_devices) as ListView
         val adapter = DeviceAdapter(applicationContext, deviceList)
         listviewDevices.adapter = adapter
-        buttonBluetoothServerListen = dialog.findViewById(R.id.button_bluetooth_server_listen)
+//        buttonBluetoothServerListen = dialog.findViewById(R.id.button_bluetooth_server_listen)
         buttonScan = dialog.findViewById(R.id.button_scan)
 
         if (connectionThread != null) {
             disableElement(listviewDevices)
-            disableElement(buttonBluetoothServerListen)
+//            disableElement(buttonBluetoothServerListen)
             disableElement(buttonScan)
         }
 
@@ -530,14 +518,14 @@ class MainActivity : AppCompatActivity() {
 
         val adapter = DeviceAdapter(applicationContext, deviceList)
         listviewDevices.adapter = adapter
-        buttonBluetoothServerListen = dialog.findViewById(R.id.button_bluetooth_server_listen)
+//        buttonBluetoothServerListen = dialog.findViewById(R.id.button_bluetooth_server_listen)
         dialog.findViewById<TextView>(R.id.btconn_instructions).text = "Make sure device is nearby before using this feature. Also disconnect current connections"
         dialog.findViewById<TextView>(R.id.label_dialog_bluetooth_title).text = "Reconnect Bluetooth Connection"
         dialog.findViewById<Button>(R.id.button_scan).visibility = View.GONE
 
         if (connectionThread != null) {
             disableElement(listviewDevices)
-            disableElement(buttonBluetoothServerListen)
+//            disableElement(buttonBluetoothServerListen)
         }
 
         // Configure event listeners
@@ -660,13 +648,13 @@ class MainActivity : AppCompatActivity() {
     }
     private val motionControl = CompoundButton.OnCheckedChangeListener { _: CompoundButton?, b: Boolean ->
         if (b) {
-            sensorOrientation.enable()
+//            sensorOrientation.enable()
             disableElement(button_direction_left)
             disableElement(button_direction_right)
             disableElement(button_direction_up)
             disableElement(joystickView)
         } else {
-            sensorOrientation.disable()
+//            sensorOrientation.disable()
             enableElement(button_direction_left)
             enableElement(button_direction_right)
             enableElement(button_direction_up)
@@ -694,6 +682,11 @@ class MainActivity : AppCompatActivity() {
         updateRobotPositionLabel()
     }
     private val changeModeFastestPath = CompoundButton.OnCheckedChangeListener { _: CompoundButton?, b: Boolean ->
+        if(b){
+            enableElement(button_set_waypoint)
+        }else{
+            disableElement(button_set_waypoint)
+        }
         fastestPathModeState = b
         label_time_elapsed.text = "00 m 00 s"
         Log.d(TAG, "Fastest Path Mode : $fastestPathModeState")
@@ -708,10 +701,9 @@ class MainActivity : AppCompatActivity() {
             setMessage("Do you want to reset the map?")
             setNegativeButton("YES") { dialogInterface,_ ->
                 MapDrawer.resetMap()
-                image_content.setImageResource(R.drawable.img_0)
                 canvas_gridmap.invalidate()
                 dialogInterface.dismiss()
-                sendString(commandWrap(Cmd.CLEAR)) // Send Clear
+//                sendString(commandWrap(Cmd.CLEAR)) // Send Clear
             }
             setPositiveButton("NO") { dialogInterface,_ -> dialogInterface.dismiss() }
         }.create()
@@ -741,12 +733,12 @@ class MainActivity : AppCompatActivity() {
     }
     private val scanDevice = View.OnClickListener {
         if (buttonScan?.text == "Scan Devices") {
-            disableElement(buttonBluetoothServerListen)
+//            disableElement(buttonBluetoothServerListen)
             buttonScan?.text = "Stop Scan"
             bluetoothAdapter.startDiscovery()
             clearDeviceList()
         } else if (buttonScan?.text == "Stop Scan") {
-            enableElement(buttonBluetoothServerListen)
+//            enableElement(buttonBluetoothServerListen)
             buttonScan?.text = "Scan Devices"
             bluetoothAdapter.cancelDiscovery()
         }
@@ -760,7 +752,7 @@ class MainActivity : AppCompatActivity() {
 
         connectedDevice = device
         connectBluetoothDevice()
-        isServer = false
+//        isServer = false
     }
 //    private val startBluetoothServer = View.OnClickListener {
 //        if (buttonBluetoothServerListen?.text == "Stop Bluetooth Server") {
@@ -859,22 +851,55 @@ class MainActivity : AppCompatActivity() {
     // Helper functions to handle received message
     private fun handleAction(payload: String) {
         Log.e("Action", "Parsing $payload")
-        val parse = Parser(payload)
+        if (payload.first().equals('g')){
+            MapDrawer.resetMap()
+            var fastestPathString = payload.removePrefix("g")
+            for (i in 0..fastestPathString.length-1 step 3){
+                var cmd = fastestPathString.get(i)
+                Log.e(TAG, "fastest path command: " + cmd)
+                when(cmd){
+                    'f' -> {
+                        Handler().postDelayed({
+                            var count = fastestPathString.subSequence(i+1, i+3).toString().toInt()
+                            for(j in 1..count){
+                                val xAxis = MapDrawer.Robot_X
+                                val yAxis = MapDrawer.Robot_Y
+                                MapDrawer.moveUp()
+                                canvas_gridmap.invalidate()
+                                updateRobotPositionLabel()
+                        }}, 300)
+                    }
+                    'r' ->{Handler().postDelayed(
+                        {
+                            MapDrawer.moveRight()
+                            canvas_gridmap.invalidate()
+                            updateRobotPositionLabel()
+                        }, 300)
+                    }
+                    'l' ->{Handler().postDelayed(
+                        {
+                            MapDrawer.moveLeft()
+                            canvas_gridmap.invalidate()
+                            updateRobotPositionLabel()
+                        }, 300)
+                    }
+                }
+            }
+        }else{
+            val parse = Parser(payload)
 
-        // Need to check if status is working
+            // Need to check if status is working
 //        val isStatus = parse.setStatus()
 //        if (isStatus) {
 //            handleUpdateStatus(parse.robotStatus)
 //            return
 //        }
-
 //        if (!parse.validPayload) return
-
-        handleUpdatePosition(parse.robotX, parse.robotY, parse.robotDir)
-
-        parse.processImage()
+            handleUpdatePosition(parse.robotX, parse.robotY, parse.robotDir)
+            parse.processImage()
 //        handleUpdateImage(parse.lastImageID)
-        MapDrawer.setGrid(parse.exploredMap)
+            MapDrawer.setGrid(parse.exploredMap)
+        }
     }
 
     private fun handleUpdateImage(imgID: String) {

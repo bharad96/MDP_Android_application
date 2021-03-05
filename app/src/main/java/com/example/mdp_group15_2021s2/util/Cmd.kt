@@ -20,10 +20,9 @@ object Cmd {
     /**
      * Robot movements
      */
-    const val DIRECTION_LEFT = "TL"
-    const val DIRECTION_RIGHT = "TR"
-    const val DIRECTION_UP = "F"
-    const val DIRECTION_DOWN = "R"
+    const val DIRECTION_LEFT = "gl83"
+    const val DIRECTION_RIGHT = "gr83"
+    const val DIRECTION_UP = "f01"
 
     /**
      * Map Status

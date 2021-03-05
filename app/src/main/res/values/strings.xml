@@ -14,7 +14,7 @@
 <string name="label_time">Time</string>
 <string name="label_status">Status</string>
 <string name="label_position">Position</string>
-<string name="label_robot_position">Robot\nPosition</string>
+<string name="label_robot_position">Robot</string>
 <string name="label_waypoint">Way Point</string>
 <string name="label_configurations">Configurations</string>
 <string name="label_remote_controller">Remote Controller</string>
@@ -35,7 +35,7 @@
 <string name="option_auto">Auto</string>
 <string name="option_manual">Manual</string>
 
-<string name="switch_motion">Motion Control</string>
+<string name="switch_motion">Disable Controls</string>
 <string name="recognized_image">Recognized Image</string>
 <string name="y_coords">Y</string>
 <string name="x_coords">X</string>

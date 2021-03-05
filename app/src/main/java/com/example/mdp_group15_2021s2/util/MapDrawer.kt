@@ -400,6 +400,9 @@ class MapDrawer(context: Context, attrs: AttributeSet? = null) : View(context, a
                     exploredPath[i][j] = "0"
                 }
             }
+            Robot_X = Robot.START_POS_X
+            Robot_Y = Robot.START_POS_Y
+            direction = Robot.START_DIRECTION
             updateExplored()
         }
 
