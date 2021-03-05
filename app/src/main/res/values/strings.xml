@@ -15,7 +15,7 @@
 <string name="label_status">Status</string>
 <string name="label_position">Position</string>
 <string name="label_robot_position">Robot</string>
-<string name="label_waypoint">Way Point</string>
+<string name="label_waypoint">WayPoint</string>
 <string name="label_configurations">Configurations</string>
 <string name="label_remote_controller">Remote Controller</string>
 <string name="label_arrow">Arrow</string>

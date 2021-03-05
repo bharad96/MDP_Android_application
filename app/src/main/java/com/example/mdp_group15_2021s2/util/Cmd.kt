@@ -13,21 +13,21 @@ object Cmd {
     /**
      * Exploration/Fastest Path
      */
-    const val EXPLORATION_START = "ES|"
-    const val FASTEST_PATH_START = "FS|"
-    const val STOP = "RS|"
+    const val EXPLORATION_START = "PC,ES|"
+    const val FASTEST_PATH_START = "PC,FS|"
+    const val STOP = "PC,RS|"
 
     /**
      * Robot movements
      */
-    const val DIRECTION_LEFT = "gl83"
-    const val DIRECTION_RIGHT = "gr83"
-    const val DIRECTION_UP = "f01"
+    const val DIRECTION_LEFT = "AR,l83"
+    const val DIRECTION_RIGHT = "AR,r83"
+    const val DIRECTION_UP = "AR,f01"
 
     /**
      * Map Status
      */
-    const val CLEAR = "clr"
+//    const val CLEAR = "clr"
 
     @JvmStatic
     fun getWayPoint(x: Int, y: Int): String { return "XWP${coordinatesFormatter.format(x)}${coordinatesFormatter.format(y)}" }

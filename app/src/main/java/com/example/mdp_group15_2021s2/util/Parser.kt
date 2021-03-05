@@ -78,17 +78,18 @@ class Parser(payload: String) {
 
         this.payload?.let {
             try {
-                val images = it.getJSONArray("imgs")
+                val images = it.getJSONArray("images")
                 var imgID = "0"
-                var image: String?
+
                 var imgX: Int
                 var imgY: Int
 
                 for (i in 0 until images.length()) {
-                    image = images.getString(i)
-                    imgX = Character.getNumericValue(image[0])
-                    imgY = Character.getNumericValue(image[2])
-                    imgID = image[4].toString()
+                    var image = images.getJSONObject(i)
+                    imgID = image.getString("id")
+                    imgX = image.getInt("x")
+                    imgY = image.getInt("y")
+
                     hexImage += " ($imgID,$imgX,$imgY),"
                     Log.e(TAG, "Process Img i:$i x:$imgX y:$imgY id:$imgID")
                     this.exploredMap[imgX][imgY] = imgID

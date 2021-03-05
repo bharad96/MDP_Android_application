@@ -188,7 +188,7 @@ class MainActivity : AppCompatActivity() {
                     getCurrentConnection = label_bluetooth_status.text.toString()
                     device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE)
                     Log.d(TAG, "Disconnected with device: ${device.name} ${device.address}")
-                    if (getCurrentConnection == "Connected" && device.address == connectedDevice.address) {
+                    if (getCurrentConnection != "Not Connected" && device.address == connectedDevice.address) {
                         connectionThread?.cancel()
                         if (!disconnectState) {
                             Log.d(TAG, "Starting Client")
@@ -322,17 +322,15 @@ class MainActivity : AppCompatActivity() {
     // Bluetooth connection state
     private fun connectedState(device: BluetoothDevice) {
         connectedDevice = device
-        label_bluetooth_status.text = "Connected"
         label_bluetooth_status.setTextColor(Color.parseColor("#388e3c"))
         val device_name = if (connectedDevice.name != null) connectedDevice.name else "Unknown Device"
         Toast.makeText(this, "Connected to: $device_name", Toast.LENGTH_SHORT).show()
-        label_bluetooth_connected_device.text = device_name
+        label_bluetooth_status.text = device_name
     }
 
     private fun disconnectedState() {
         label_bluetooth_status.text = "Not Connected"
         label_bluetooth_status.setTextColor(Color.parseColor("#d32f2f"))
-        label_bluetooth_connected_device.text = ""
         Toast.makeText(this, "Disconnected from device", Toast.LENGTH_SHORT).show()
     }
 
@@ -609,7 +607,8 @@ class MainActivity : AppCompatActivity() {
             enableElement(switch_motion_control)
             enableElement(button_start_phase)
             enableElement(button_reset_map)
-            val msg = "OG,[${MapDrawer.Robot_X},${MapDrawer.invertYAxis(MapDrawer.Robot_Y)},${MapDrawer.getRotationDir()}]"
+            val msg = "PC," +
+                    "OG,[${MapDrawer.Robot_X},${MapDrawer.invertYAxis(MapDrawer.Robot_Y)},${MapDrawer.getRotationDir()}]"
             sendString(commandWrap(msg))
             MapDrawer.setSelectStartPoint()
             MapDrawer.updateStartPoint()
@@ -639,7 +638,7 @@ class MainActivity : AppCompatActivity() {
             enableElement(switch_motion_control)
             enableElement(button_start_phase)
             enableElement(button_reset_map)
-            val msg = "WP|${MapDrawer.Way_Point_X}|${MapDrawer.getWayPointYInvert()}"
+            val msg = "PC,WP|${MapDrawer.Way_Point_X}|${MapDrawer.getWayPointYInvert()}"
             sendString(commandWrap(msg))
 
             MapDrawer.setSelectWayPoint()
@@ -703,7 +702,7 @@ class MainActivity : AppCompatActivity() {
                 MapDrawer.resetMap()
                 canvas_gridmap.invalidate()
                 dialogInterface.dismiss()
-//                sendString(commandWrap(Cmd.CLEAR)) // Send Clear
+                updateRobotPositionLabel()
             }
             setPositiveButton("NO") { dialogInterface,_ -> dialogInterface.dismiss() }
         }.create()
@@ -899,6 +898,7 @@ class MainActivity : AppCompatActivity() {
             parse.processImage()
 //        handleUpdateImage(parse.lastImageID)
             MapDrawer.setGrid(parse.exploredMap)
+            updateRobotPositionLabel()
         }
     }
 
@@ -942,7 +942,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun commandWrap(cmd: String): String {
-        return "PC,${cmd}"
+        return "${cmd}"
 //        return ";{$FROMANDROID\"com\":\"${cmd}\"}"
     }
 
