@@ -9,7 +9,7 @@ import org.json.JSONObject
 import com.example.mdp_group15_2021s2.entity.Map
 import java.math.BigInteger
 
-class Parser(payload: String) {
+class Parser() {
 
     private var payload: JSONObject? = null
     var robotX = 0
@@ -24,7 +24,7 @@ class Parser(payload: String) {
 
     var validPayload = true
 
-    init {
+    fun parse(payload: String) {
         val tmpPayload: JSONObject?
         this.currentPayload = payload
 
@@ -34,11 +34,14 @@ class Parser(payload: String) {
 
             setRobot()
             setMDF()
+            processImage()
         } catch (jsonEx: JSONException) {
             Log.d(TAG, "JSON EXCEPTION1")
             this.validPayload = false
         }
     }
+
+
 
     private fun setRobot() {
         if (!this.validPayload) return

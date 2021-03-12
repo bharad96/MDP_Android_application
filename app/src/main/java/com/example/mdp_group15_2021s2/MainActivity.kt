@@ -30,7 +30,6 @@ import com.example.mdp_group15_2021s2.entity.Store
 import com.example.mdp_group15_2021s2.util.Cmd
 import com.example.mdp_group15_2021s2.util.MapDrawer
 import com.example.mdp_group15_2021s2.util.Parser
-import com.google.android.material.snackbar.Snackbar
 import java.io.*
 import java.lang.ref.WeakReference
 import java.text.DecimalFormat
@@ -72,6 +71,8 @@ class MainActivity : AppCompatActivity() {
     private var currentTime = System.currentTimeMillis()
 
     private lateinit var sensorOrientation: OrientationEventListener
+
+    val parser = Parser()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -885,7 +886,8 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }else{
-            val parse = Parser(payload)
+            // TODO: add parser
+            parser.parse(payload)
 
             // Need to check if status is working
 //        val isStatus = parse.setStatus()
@@ -894,10 +896,10 @@ class MainActivity : AppCompatActivity() {
 //            return
 //        }
 //        if (!parse.validPayload) return
-            handleUpdatePosition(parse.robotX, parse.robotY, parse.robotDir)
-            parse.processImage()
+            handleUpdatePosition(parser.robotX, parser.robotY, parser.robotDir)
+
 //        handleUpdateImage(parse.lastImageID)
-            MapDrawer.setGrid(parse.exploredMap)
+            MapDrawer.setGrid(parser.exploredMap)
             updateRobotPositionLabel()
         }
     }
