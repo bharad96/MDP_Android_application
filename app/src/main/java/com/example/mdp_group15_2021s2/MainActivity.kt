@@ -886,13 +886,13 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }else{
-            // TODO: add parser
             parser.parse(payload)
 
             // Need to check if status is working
-//        val isStatus = parse.setStatus()
+//        val isStatus = parser.setStatus()
 //        if (isStatus) {
-//            handleUpdateStatus(parse.robotStatus)
+//            handleUpdateStatus(parser
+//                    .robotStatus)
 //            return
 //        }
 //        if (!parse.validPayload) return

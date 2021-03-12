@@ -44,7 +44,7 @@ class Parser() {
 
 
     private fun setRobot() {
-        if (!this.validPayload) return
+//        if (!this.validPayload) return
 
         this.payload?.let {
             try {
@@ -83,7 +83,7 @@ class Parser() {
             try {
                 val images = it.getJSONArray("images")
                 var imgID = "0"
-
+                hexImage = ""
                 var imgX: Int
                 var imgY: Int
 
@@ -114,7 +114,7 @@ class Parser() {
     }
 
     private fun setMDF() {
-        if (!this.validPayload) { Log.d("MDF", "Invalid Payload"); return }
+//        if (!this.validPayload) { Log.d("MDF", "Invalid Payload"); return }
 
         mdfPayload = this.currentPayload
 
