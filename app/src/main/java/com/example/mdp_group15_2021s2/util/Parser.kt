@@ -16,11 +16,11 @@ class Parser() {
     var robotY = 0
     var robotDir = ""
     var robotStatus = ""
-    var lastImageID = ""
     private var currentPayload = ""
+    private var images = JSONArray()
 
     // Used to draw the grid map
-    val exploredMap = Array(Map.COLUMN) { Array(Map.ROW) { "" } }
+    var exploredMap = Array(Map.COLUMN) { Array(Map.ROW) { "" } }
 
     var validPayload = true
 
@@ -31,13 +31,13 @@ class Parser() {
         try {
             tmpPayload = JSONObject(payload)
             this.payload = tmpPayload
-
-            setRobot()
-            setMDF()
-            processImage()
+                setRobot()
+                processImage()
+                setMDF()
+                processObsId()
         } catch (jsonEx: JSONException) {
-            Log.d(TAG, "JSON EXCEPTION1")
-            this.validPayload = false
+            Log.d(TAG, "JSON EXCEPTION at parse")
+//            this.validPayload = false
         }
     }
 
@@ -62,7 +62,7 @@ class Parser() {
                     else -> "RIGHT" // DEFAULT RIGHT
                 }
             } catch (jsonEx: JSONException) {
-                Log.d(TAG, "JSON EXCEPTION")
+                Log.d(TAG, "JSON EXCEPTION in set Robot")
                 this.validPayload = false
             } catch (indexEx: IndexOutOfBoundsException) {
                 Log.d(TAG, "INDEX OUT OF BOUNDS EXCEPTION")
@@ -76,32 +76,33 @@ class Parser() {
 
     fun setStatus(): Boolean { return try { this.robotStatus = this.payload?.getString("status") ?: "Unknown"; true } catch (e: Exception) { Log.d(TAG, "EXCEPTION"); false } }
 
+    fun processObsId(){
+        hexImage = ""
+        for (i in 0 until images.length()) {
+            var image = images.getJSONObject(i)
+            var imgID = image.getString("id")
+            var imgX = image.getInt("x")
+            var imgY = image.getInt("y")
+
+            hexImage += " ($imgID,$imgX,$imgY),"
+            Log.e(TAG, "Process Img i:$i x:$imgX y:$imgY id:$imgID")
+            exploredMap[imgX][imgY] = imgID
+        }
+        if (hexImage.isNotEmpty()) hexImage = hexImage.trimEnd(',') // Previously substring remove length-1
+    }
+
     fun processImage() {
 //        if (!this.validPayload) return
 
         this.payload?.let {
             try {
-                val images = it.getJSONArray("images")
-                var imgID = "0"
-                hexImage = ""
-                var imgX: Int
-                var imgY: Int
-
-                for (i in 0 until images.length()) {
-                    var image = images.getJSONObject(i)
-                    imgID = image.getString("id")
-                    imgX = image.getInt("x")
-                    imgY = image.getInt("y")
-
-                    hexImage += " ($imgID,$imgX,$imgY),"
-                    Log.e(TAG, "Process Img i:$i x:$imgX y:$imgY id:$imgID")
-                    this.exploredMap[imgX][imgY] = imgID
+                var tempImages = it.getJSONArray("images")
+                for (i in 0 until tempImages.length()){
+                    images.put(tempImages.get(i))
                 }
-
-                if (hexImage.isNotEmpty()) hexImage = hexImage.trimEnd(',') // Previously substring remove length-1
-                this.lastImageID = imgID
+//                this.lastImageID = imgID
             } catch (jsonEx: JSONException) {
-                Log.d(TAG, "JSON EXCEPTION")
+                Log.d(TAG, "JSON EXCEPTION in process image")
                 this.validPayload = false
             } catch (indexEx: IndexOutOfBoundsException) {
                 Log.d(TAG, "Process Image INDEX OUT OF BOUNDS EXCEPTION")
@@ -146,6 +147,8 @@ class Parser() {
                 obstacleMDF = String.format("%${obstacleMdfHexToBinLen}s", obstacleMDF).replace(" ", "0")
                 if (DEBUG) Log.d("MDF", "Obstacle MDF: $obstacleMDF")
 
+                exploredMap = Array(Map.COLUMN) { Array(Map.ROW) { "" } }
+
                 Log.d("MDF", "Parsing Explored String on map")
                 for (i in 0 until Map.ROW) {
                     for (j in 0 until Map.COLUMN) {
@@ -171,8 +174,9 @@ class Parser() {
                 }
                 if (DEBUG) printMapDbg()
 
+
             } catch (jsonEx: JSONException) {
-                Log.e(TAG, "JSON EXCEPTION")
+                Log.e(TAG, "JSON EXCEPTION in Set MDF")
                 this.validPayload = false
             } catch (indexEx: IndexOutOfBoundsException) {
                 Log.e(TAG, "Set MDF INDEX OUT OF BOUNDS EXCEPTION")
@@ -197,10 +201,9 @@ class Parser() {
     companion object {
         const val TAG = "Parser"
         val DEBUG = BuildConfig.DEBUG
-
+        var hexImage = ""
         var hexMDF = "0x0000000000000000"
         var hexExplored = "0x0000000000000000"
-        var hexImage = ""
         var mdfPayload = ""
     }
 }

@@ -704,6 +704,7 @@ class MainActivity : AppCompatActivity() {
                 canvas_gridmap.invalidate()
                 dialogInterface.dismiss()
                 updateRobotPositionLabel()
+                Parser.hexImage = ""
             }
             setPositiveButton("NO") { dialogInterface,_ -> dialogInterface.dismiss() }
         }.create()
