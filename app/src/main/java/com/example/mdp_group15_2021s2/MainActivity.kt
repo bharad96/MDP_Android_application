@@ -109,6 +109,7 @@ class MainActivity : AppCompatActivity() {
         toggle_update_auto.setOnCheckedChangeListener(changeAutoMode)
         canvas_gridmap.setOnTouchListener(setMap)
         button_reset_map.setOnClickListener(resetMap)
+        button_SP.setOnClickListener(sendSP)
         sensorOrientation = object: OrientationEventListener(this) { override fun onOrientationChanged(orientation: Int) { handleRotation(orientation) } }
 
         // Joystick Listener
@@ -575,6 +576,9 @@ class MainActivity : AppCompatActivity() {
                     val timePassed = 30000000 - l
                     var seconds = timePassed / 1000
                     val minutes = seconds / 60
+                    if (seconds == 345.toLong()){
+                        sendString(commandWrap(Cmd.SP))
+                    }
                     seconds %= 60
                     val timeFormatter = DecimalFormat("00")
                     val time = "${timeFormatter.format(minutes)} m ${timeFormatter.format(seconds)} s"
@@ -709,6 +713,9 @@ class MainActivity : AppCompatActivity() {
             setPositiveButton("NO") { dialogInterface,_ -> dialogInterface.dismiss() }
         }.create()
         dialog.show()
+    }
+    private val sendSP = View.OnClickListener {
+        sendString(commandWrap(Cmd.SP))
     }
 
     // Event Listeners for Dialog Builders
@@ -902,6 +909,9 @@ class MainActivity : AppCompatActivity() {
 //        handleUpdateImage(parse.lastImageID)
             MapDrawer.setGrid(parser.exploredMap)
             updateRobotPositionLabel()
+            if(parser.images.length() == 5){
+                sendString(commandWrap(Cmd.SP))
+            }
         }
     }
 

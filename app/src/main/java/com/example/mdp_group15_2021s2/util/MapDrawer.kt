@@ -120,8 +120,8 @@ class MapDrawer(context: Context, attrs: AttributeSet? = null) : View(context, a
         obstaclePaintBorder.color = Color.parseColor("#f5f5f5")
 
         obstacleTextPaint.style = Paint.Style.STROKE
-        obstacleTextPaint.color = Color.parseColor("#f5f5f5")
-        obstacleTextPaint.textSize = 22f
+        obstacleTextPaint.color = Color.parseColor("#ffffff")
+        obstacleTextPaint.textSize = 30f
 
         if (this.tag != null) {
             Log.d("Tag", if (this.tag != null) this.tag as String else "Default")
@@ -365,6 +365,21 @@ class MapDrawer(context: Context, attrs: AttributeSet? = null) : View(context, a
             "13" -> canvas.drawBitmap(BitmapFactory.decodeResource(context.resources, R.raw.img_13), null, Rect(left, top, right, bottom), null)
             "14" -> canvas.drawBitmap(BitmapFactory.decodeResource(context.resources, R.raw.img_14), null, Rect(left, top, right, bottom), null)
             "15" -> canvas.drawBitmap(BitmapFactory.decodeResource(context.resources, R.raw.img_15), null, Rect(left, top, right, bottom), null)
+//            "01" -> canvas.drawText("1", tleft.toFloat(), ttop.toFloat(), obstacleTextPaint)
+//            "02" -> canvas.drawText("2", tleft.toFloat(), ttop.toFloat(), obstacleTextPaint)
+//            "03" -> canvas.drawText("3", tleft.toFloat(), ttop.toFloat(), obstacleTextPaint)
+//            "04" -> canvas.drawText("4", tleft.toFloat(), ttop.toFloat(), obstacleTextPaint)
+//            "05" -> canvas.drawText("5", tleft.toFloat(), ttop.toFloat(), obstacleTextPaint)
+//            "06" -> canvas.drawText("6", tleft.toFloat(), ttop.toFloat(), obstacleTextPaint)
+//            "07" -> canvas.drawText("7", tleft.toFloat(), ttop.toFloat(), obstacleTextPaint)
+//            "08" -> canvas.drawText("8", tleft.toFloat(), ttop.toFloat(), obstacleTextPaint)
+//            "09" -> canvas.drawText("9", tleft.toFloat(), ttop.toFloat(), obstacleTextPaint)
+//            "10" -> canvas.drawText("10", tleft.toFloat(), ttop.toFloat(), obstacleTextPaint)
+//            "11" -> canvas.drawText("11", tleft.toFloat(), ttop.toFloat(), obstacleTextPaint)
+//            "12" -> canvas.drawText("12", tleft.toFloat(), ttop.toFloat(), obstacleTextPaint)
+//            "13" -> canvas.drawText("13", tleft.toFloat(), ttop.toFloat(), obstacleTextPaint)
+//            "14" -> canvas.drawText("14", tleft.toFloat(), ttop.toFloat(), obstacleTextPaint)
+//            "15" -> canvas.drawText("15", tleft.toFloat(), ttop.toFloat(), obstacleTextPaint)
         }
     }
 

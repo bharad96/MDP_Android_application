@@ -17,7 +17,9 @@ class Parser() {
     var robotDir = ""
     var robotStatus = ""
     private var currentPayload = ""
-    private var images = JSONArray()
+    var images = JSONArray()
+    var tempX = 0
+    var tempY = 3
 
     // Used to draw the grid map
     var exploredMap = Array(Map.COLUMN) { Array(Map.ROW) { "" } }
@@ -32,7 +34,7 @@ class Parser() {
             tmpPayload = JSONObject(payload)
             this.payload = tmpPayload
                 setRobot()
-                processImage()
+                processImage() // updates the images array
                 setMDF()
                 processObsId()
         } catch (jsonEx: JSONException) {
@@ -84,8 +86,8 @@ class Parser() {
             var imgX = image.getInt("x")
             var imgY = image.getInt("y")
 
-            hexImage += " ($imgID,$imgX,$imgY),"
-            Log.e(TAG, "Process Img i:$i x:$imgX y:$imgY id:$imgID")
+            hexImage += " (${imgID.toInt()},$imgX,$imgY),"
+            Log.e(TAG, "Process Img i:$i x:$imgX y:$imgY id:${imgID.toInt()}")
             exploredMap[imgX][imgY] = imgID
         }
         if (hexImage.isNotEmpty()) hexImage = hexImage.trimEnd(',') // Previously substring remove length-1
@@ -97,8 +99,41 @@ class Parser() {
         this.payload?.let {
             try {
                 var tempImages = it.getJSONArray("images")
+                var tempIncomingImg : JSONObject
+                var tempExistingImg : JSONObject
+                var imgID : String
+                var removeIndex : Int
+                var incomX: Int
+                var incomY: Int
+                removeIndex = 9999
+                var removeIndexBool : Boolean
                 for (i in 0 until tempImages.length()){
-                    images.put(tempImages.get(i))
+                    removeIndexBool = false
+                    // incoming image id and coordinates
+                    tempIncomingImg = tempImages.get(i) as JSONObject
+                    imgID = tempIncomingImg.getString("id")
+                    incomX = tempIncomingImg.getInt("x")
+                    incomY = tempIncomingImg.getInt("y")
+                    for (j in 0 until images.length()){
+                        tempExistingImg = images.get(j) as JSONObject
+                        // replace image if it already exists
+                        if (tempExistingImg.getString("id") == imgID){
+                            removeIndex = j
+                            removeIndexBool = true
+                            exploredMap[tempExistingImg.getInt("x")][tempExistingImg.getInt("y")] = "O"
+                        }
+                        // if image x, y already exist then keep it somewhere else
+                        if (tempExistingImg.getInt("x") == incomX && tempExistingImg.getInt("y") == incomY){
+                            tempIncomingImg.put("x", tempX)
+                            tempIncomingImg.put("y", tempY)
+                            tempX++
+                        }
+                    }
+
+                    if (removeIndexBool){
+                        images.remove(removeIndex)
+                    }
+                    images.put(tempIncomingImg)
                 }
 //                this.lastImageID = imgID
             } catch (jsonEx: JSONException) {

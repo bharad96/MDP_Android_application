@@ -16,6 +16,7 @@ object Cmd {
     const val EXPLORATION_START = "PC,ES|"
     const val FASTEST_PATH_START = "PC,FS|"
     const val STOP = "PC,RS|"
+    const val SP = "PC,SP|"
 
     /**
      * Robot movements
