@@ -109,7 +109,7 @@ class MainActivity : AppCompatActivity() {
         toggle_update_auto.setOnCheckedChangeListener(changeAutoMode)
         canvas_gridmap.setOnTouchListener(setMap)
         button_reset_map.setOnClickListener(resetMap)
-        button_SP.setOnClickListener(sendSP)
+//        button_SP.setOnClickListener(sendSP)
         sensorOrientation = object: OrientationEventListener(this) { override fun onOrientationChanged(orientation: Int) { handleRotation(orientation) } }
 
         // Joystick Listener
@@ -576,7 +576,7 @@ class MainActivity : AppCompatActivity() {
                     val timePassed = 30000000 - l
                     var seconds = timePassed / 1000
                     val minutes = seconds / 60
-                    if (seconds == 345.toLong()){
+                    if (seconds == 340.toLong()){
                         sendString(commandWrap(Cmd.SP))
                     }
                     seconds %= 60

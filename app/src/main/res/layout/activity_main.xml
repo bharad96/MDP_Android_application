@@ -110,7 +110,7 @@
                         <TextView
                             android:layout_width="20dp"
                             android:layout_height="20dp"
-                            android:background="@color/colorAppTheme"
+
                             android:gravity="center"
                             android:text="@string/x_coords"
                             android:textStyle="bold" />
@@ -127,7 +127,7 @@
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:layout_marginStart="10dp"
-                            android:background="@color/colorAppTheme"
+
                             android:gravity="center"
                             android:text="@string/y_coords"
                             android:textStyle="bold" />
@@ -183,7 +183,7 @@
                     <TextView
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:background="@color/colorAppTheme"
+
                         android:gravity="center"
                         android:text="@string/x_coords"
                         android:textStyle="bold" />
@@ -200,7 +200,7 @@
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_marginStart="10dp"
-                        android:background="@color/colorAppTheme"
+
                         android:gravity="center"
                         android:text="@string/y_coords"
                         android:textStyle="bold" />
@@ -284,19 +284,20 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:background="@color/colorAppTheme"
+                    android:paddingVertical="30dp"
                     android:text="@string/button_start"
                     android:textColor="@color/colorButtonTextTheme"
                     android:textStyle="bold" />
-                <Button
-                    android:id="@+id/button_SP"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:background="@color/colorAppTheme"
-                    android:text="return"
-                    android:layout_marginLeft="10dp"
-                    android:textColor="@color/colorButtonTextTheme"
-                    android:textStyle="bold" />
+<!--                <Button-->
+<!--                    android:id="@+id/button_SP"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_gravity="center_vertical"-->
+<!--                    android:background="@color/colorAppTheme"-->
+<!--                    android:text="return"-->
+<!--                    android:layout_marginLeft="30dp"-->
+<!--                    android:textColor="@color/colorButtonTextTheme"-->
+<!--                    android:textStyle="bold" />-->
             </LinearLayout>
         </LinearLayout>
         <LinearLayout
@@ -328,16 +329,17 @@
                         android:gravity="center"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="15dp"
                         android:orientation="horizontal"
                         app:sc_border_width="1dp"
                         app:sc_corner_radius="1dp"
                         app:sc_tint_color="@color/colorAppTheme">
 
                         <RadioButton
+
                             android:id="@+id/toggle_mode_exploration"
                             style="@style/RadioButton"
-                            android:paddingVertical="8dp"
+                            android:paddingVertical="11dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:checked="true"
@@ -346,7 +348,7 @@
                         <RadioButton
                             android:id="@+id/toggle_mode_fastest_path"
                             style="@style/RadioButton"
-                            android:paddingVertical="8dp"
+                            android:paddingVertical="11dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/option_fastest_path" />
@@ -356,7 +358,7 @@
                         android:gravity="center"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="15dp"
                         android:orientation="horizontal"
                         app:sc_border_width="1dp"
                         app:sc_corner_radius="1dp"
@@ -386,7 +388,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="15dp"
                         android:background="@color/colorAppTheme"
                         android:text="@string/button_refresh"
                         android:textColor="@color/colorButtonTextTheme"/>
@@ -394,7 +396,7 @@
                         android:id="@+id/button_set_origin"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="15dp"
                         android:background="@color/colorAppTheme"
                         android:text="@string/button_set_origin"
                         android:textColor="@color/colorButtonTextTheme" />
@@ -403,7 +405,7 @@
                         android:id="@+id/button_set_waypoint"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="15dp"
                         android:background="@color/colorAppTheme"
                         android:text="@string/button_set_waypoint"
                         android:enabled="false"
@@ -413,7 +415,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginVertical="10dp"
+                        android:layout_marginVertical="15dp"
                         android:background="@color/colorAppTheme"
                         android:text="@string/button_reset_map"
                         android:textColor="@color/colorButtonTextTheme" />
@@ -443,7 +445,7 @@
                         android:layout_height="70dp"
                         android:layout_alignParentStart="true"
                         android:layout_marginStart="60dp"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="15dp"
                         app:JV_backgroundColor="@color/colorAppTheme"
                         app:JV_borderColor="@color/colorAppTheme"
                         app:JV_borderWidth="4dp"
@@ -457,7 +459,7 @@
                             android:layout_height="wrap_content"
                             android:switchPadding="10dp"
                             android:layout_marginLeft="5dp"
-                            android:layout_marginVertical="10dp"
+                            android:layout_marginVertical="15dp"
                             android:text="@string/switch_motion"
                             android:textColor="#616161" />
                     <RelativeLayout
