@@ -562,7 +562,7 @@ class MainActivity : AppCompatActivity() {
         if (startModeState) {
             startModeState = false
             button_start_phase.text = "Start"
-            sendString(commandWrap(Cmd.STOP))
+            sendString(commandWrap(Cmd.SP))
             timer.cancel()
             endModeUI()
         } else {
@@ -576,7 +576,7 @@ class MainActivity : AppCompatActivity() {
                     val timePassed = 30000000 - l
                     var seconds = timePassed / 1000
                     val minutes = seconds / 60
-                    if (seconds == 340.toLong()){
+                    if (seconds == 355.toLong()){
                         sendString(commandWrap(Cmd.SP))
                     }
                     seconds %= 60
